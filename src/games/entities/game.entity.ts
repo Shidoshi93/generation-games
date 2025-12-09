@@ -1,0 +1,42 @@
+import { IsNotEmpty } from "class-validator";
+import { Column, Entity, ManyToOne, UpdateDateColumn } from "typeorm";
+import { PrimaryGeneratedColumn } from "typeorm/browser";
+import { Category } from "../../category/entities/category.entity";
+
+@Entity('game')
+export class Game {
+    @PrimaryGeneratedColumn()
+    id: number;
+
+    @IsNotEmpty()
+    @Column({ length: 100, nullable: false })
+    title: string;
+
+    @Column({ nullable: true, length: 1000 })
+    description: string;
+
+    @Column({ type: 'decimal', precision: 10, scale: 2, nullable: false })
+    price: number;
+
+    @IsNotEmpty()
+    @Column({ length: 100, nullable: false })
+    developer: string;
+
+    @IsNotEmpty()
+    @Column({ type: 'timestamp', nullable: false })
+    releaseDate: Date;
+
+    @Column({ type: 'float', nullable: true })
+    rating: number;
+
+    @UpdateDateColumn()
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    createdAt: Date;
+
+    @UpdateDateColumn()
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    updatedAt: Date;
+    
+    @ManyToOne(() => Category, (category) => category.games)
+    category: Category;
+}
