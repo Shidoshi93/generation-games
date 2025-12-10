@@ -1,6 +1,5 @@
 import { IsNotEmpty } from "class-validator";
-import { Column, Entity, ManyToOne, UpdateDateColumn } from "typeorm";
-import { PrimaryGeneratedColumn } from "typeorm/browser";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Category } from "../../category/entities/category.entity";
 
 @Entity('game')
@@ -30,11 +29,11 @@ export class Game {
     rating: number;
 
     @UpdateDateColumn()
-    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    @Column({ type: 'timestamp' })
     createdAt: Date;
 
     @UpdateDateColumn()
-    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    @Column({ type: 'timestamp' })
     updatedAt: Date;
     
     @ManyToOne(() => Category, (category) => category.games)

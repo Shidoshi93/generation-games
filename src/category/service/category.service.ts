@@ -91,16 +91,16 @@ export class CategoryService {
         }
     }
 
-    async update(id: number, updateData: Partial<Category>): Promise<Category> {
-        Logger.log(`Updating category with ID: ${id}.`);
+    async update(updateData: Partial<Category>): Promise<Category> {
+        Logger.log(`Updating category with ID: ${updateData.id}.`);
 
         try {
-            await this.categoryRepository.findOneByOrFail({ id });
+            await this.categoryRepository.findOneByOrFail({ id: updateData.id });
             const updatedCategory = await this.categoryRepository.save(updateData);
-            Logger.log(`Category with ID: ${id} successfully updated.`);
+            Logger.log(`Category with ID: ${updateData.id} successfully updated.`);
             return updatedCategory;
         } catch (error) {
-            Logger.error(`Error updating category with ID: ${id}`, error);
+            Logger.error(`Error updating category with ID: ${updateData.id}`, error);
             throw new InternalServerErrorException("Could not update category");
         }
     }
