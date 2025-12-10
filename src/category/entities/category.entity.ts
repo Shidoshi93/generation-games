@@ -20,9 +20,11 @@ export class Category {
     description: string;
 
     @CreateDateColumn({ type: 'timestamp' })
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     createdAt: Date;
 
-    @UpdateDateColumn({ type: 'timestamp' })
+    @UpdateDateColumn({ type: 'timestamp', })
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     updatedAt: Date;
 
     @OneToMany(() => Game, (game) => game.category)
