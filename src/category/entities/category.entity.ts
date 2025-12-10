@@ -6,7 +6,7 @@ import {
     PrimaryGeneratedColumn, 
     UpdateDateColumn 
 } from "typeorm";
-import { Game } from "../../games/entities/game.entity";
+import { Game } from "../../game/entities/game.entity";
 
 @Entity('category')
 export class Category {
@@ -19,10 +19,10 @@ export class Category {
     @Column({ nullable: true, length: 1000 })
     description: string;
 
-    @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    @CreateDateColumn({ type: 'timestamp' })
     createdAt: Date;
 
-    @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    @UpdateDateColumn({ type: 'timestamp' })
     updatedAt: Date;
 
     @OneToMany(() => Game, (game) => game.category)

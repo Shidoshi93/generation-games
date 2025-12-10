@@ -70,6 +70,22 @@ export class GameService {
         return game;
     }
 
+    async findGamesByCategoryId(categoryId: number): Promise<Game[]> {
+        Logger.log(`Fetching games for category ID: ${categoryId}`);
+        let games: Game[] = [];
+        try {
+            games = await this.gameRepository.find({
+                where: { category: { id: categoryId } },
+                relations: { category: true },
+            });
+            Logger.log(`Found ${games.length} games for category ID: ${categoryId}`);
+        } catch (error) {
+            Logger.error(`Error fetching games for category ID: ${categoryId}`, error);
+            throw new InternalServerErrorException("Could not fetch games");
+        }
+        return games;
+    }
+    
     async create(gameData: Partial<Game>): Promise<Game> {
         Logger.log("Creating a new game.");
         let newGame: Game;
@@ -99,15 +115,15 @@ export class GameService {
         }
     }
 
-    async update(id: number, updateData: Partial<Game>): Promise<Game> {
-        Logger.log(`Updating game with ID: ${id}`);
+    async update(updateData: Partial<Game>): Promise<Game> {
+        Logger.log(`Updating game with ID: ${updateData.id}`);
         let updatedGame: Game;
         try {
-            await this.gameRepository.update(id, updateData);
-            updatedGame = await this.findById(id);
-            Logger.log(`Game with ID: ${id} successfully updated.`);
+            await this.gameRepository.findOneByOrFail({ id: updateData.id });
+            updatedGame = await this.gameRepository.save(updateData);
+            Logger.log(`Game with ID: ${updateData.id} successfully updated.`);
         } catch (error) {
-            Logger.error(`Error updating game with ID: ${id}`, error);
+            Logger.error(`Error updating game with ID: ${updateData.id}`, error);
             throw new InternalServerErrorException("Could not update game");
         }
         return updatedGame;
