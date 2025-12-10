@@ -29,11 +29,11 @@ export class Game {
     rating: number;
 
     @UpdateDateColumn()
-    @Column({ type: 'timestamp' })
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     createdAt: Date;
 
     @UpdateDateColumn()
-    @Column({ type: 'timestamp' })
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     updatedAt: Date;
     
     @ManyToOne(() => Category, (category) => category.games)

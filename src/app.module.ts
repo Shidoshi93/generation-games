@@ -3,6 +3,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Game } from './game/entities/game.entity';
 import { Category } from './category/entities/category.entity';
+import { CategoryModule } from './category/category.module';
+import { GameModule } from './game/game.module';
 
 @Module({
   imports: [
@@ -23,6 +25,8 @@ import { Category } from './category/entities/category.entity';
         entities: [Game, Category],
       }),
     }),
+    CategoryModule,
+    GameModule,
   ],
   controllers: [],
   providers: [],
